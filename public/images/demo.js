@@ -1,9 +1,8 @@
-
 class WidgetClass {
     constructor(config) {
       this.config = config;
     }
-  start = () => {
+    start = () => {
       $.when(
         $.getScript("https://unpkg.com/react@17/umd/react.development.js"),
         $.getScript("https://unpkg.com/react-dom@17/umd/react-dom.development.js")
@@ -14,17 +13,6 @@ class WidgetClass {
   const renderReactWidget = (config) => {
     "use strict";
     const e = React.createElement;
-  
-    const widgetAttributes = config.attributes || ["black", "red", "blue"];
-    const widgetPlaceHolder = config.placeholder || ".product-price";
-    const widgetPlaceHolderText = config.placeholder_text || "Surprise me with the color";
-    const widgetImage = config.image || window.location.origin + "/images/black.png";
-    //const widgetCardButton=config.cart_button||".cart-btn"
-    const widgetSelectAttribute=config.select_attribute||function(attr) {
-     $(".active").removeClass("active");
-      $(".left-column img[data-image = " + attr + "]").addClass("active");
-      document.querySelector(`input#${attr}`).checked = true;
-    }
   
     const containerComponent = () => {
       const [modal, setModal] = React.useState(false);
@@ -39,7 +27,7 @@ class WidgetClass {
       return e("div", {
         style: {
           ...styleContext.imageStyle,
-          backgroundImage: `url("${widgetImage}")`,
+          backgroundImage: `url("${config.image}")`,
         },
       });
     };
@@ -52,7 +40,7 @@ class WidgetClass {
           onClick: () => setModal(true),
           style: styleContext.initialButton,
         },
-        widgetPlaceHolderText
+        config.placeholder_text
       );
     };
   
@@ -99,8 +87,8 @@ class WidgetClass {
   
     const attributeButton = ({ text, attribute, setModal, setPage }) => {
       const clickHandler = () => {
-      widgetSelectAttribute(attribute)
-      
+        config.select_attribute(attribute);
+  
         setModal(false);
         setPage(0);
       };
@@ -145,10 +133,10 @@ class WidgetClass {
   
     const AttributeComponent = ({ setPage, setModal }) => {
       const [attr, setAttr] = React.useState("");
-  
+      const widgetAttributes = config.attributes;
       React.useEffect(() => {
         var randomAttr =
-        widgetAttributes[Math.floor(Math.random() * widgetAttributes.length)];
+          widgetAttributes[Math.floor(Math.random() * widgetAttributes.length)];
         setAttr(randomAttr);
       }, []);
   
@@ -160,7 +148,7 @@ class WidgetClass {
               onClick: () => setAttr(attribute),
               style:
                 attribute === attr
-                  ? {...styleContext.blackButton,backgroundColor:attr}
+                  ? { ...styleContext.blackButton, backgroundColor: attr }
                   : styleContext.borderButton,
             },
             attribute
@@ -202,139 +190,142 @@ class WidgetClass {
       ]);
     };
   
-    const domContainer = document.querySelector(widgetPlaceHolder);
+    const domContainer = document.querySelector();
     const reactRoot = document.createElement("div");
-   
-    insertAfter(reactRoot,domContainer);
+  
+    insertAfter(reactRoot, domContainer);
     ReactDOM.render(e(containerComponent), reactRoot);
-   
   };
   
   function insertAfter(newElement, referenceElement) {
-      referenceElement.parentNode.insertBefore(newElement, referenceElement.nextSibling);
+    referenceElement.parentNode.insertBefore(
+      newElement,
+      referenceElement.nextSibling
+    );
   }
   
   const Widget = (config) => new WidgetClass(config);
   
   //<svg height="20" width="20" class="es-close-btn"><path  fill="rgba(12, 7, 6, 1)" style="transition: fill 0.2s ease 0s;"></path></svg>
   const styleContext = {
-      modalContainer: {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-    
-        backgroundColor: "rgba(0,0,0,0.7)",
-        zIndex: 100,
-        color: "white",
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-    
-        height: "100vh",
-      },
-      modalContent: {
-        padding: "3rem",
-        maxWidth: 600,
-        minHeight: 300,
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "#fff",
-        color: "#000",
-        textAlign: "center",
-        borderRadius: 10,
-        position: "relative",
-      },
-      centerColumn: {
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "1rem",
-      },
-      imageStyle: {
-        width: "100%",
-        height: 300,
-        backgroundSize: "contain",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      },
-      blackButton: {
-        margin: "10px",
-        backgroundColor: "black",
-        border: "none",
-        borderRadius: "5px",
-        width: "70%",
-        padding: 14,
-        fontSize: 16,
-        color: "white",
-        boxShadow: "rgb(180 180 180) 0px 6px 18px -5px",
-        cursor: "pointer",
-      },
-      animation: { height: 400 },
-      orangeButton: {
-        margin: "10px",
-        backgroundColor: "#ed6755",
-        border: "none",
-        borderRadius: "5px",
-        width: "70%",
-        padding: 14,
-        fontSize: 16,
-        color: "white",
-        textAlign:"center",
-        cursor: "pointer",
-      },
-      initialButton:{
-          margin: "10px 0px",
-          backgroundColor: "#ed6755",
-          border: "none",
-          borderRadius: "5px",
-          
-          padding: 14,
-          fontSize: 16,
-          color: "white",
-          textAlign:"center",
-          cursor: "pointer",
-      },
-      closeButton: {
-        position: "absolute",
-        top: 20,
-        right: 20,
-        width: 30,
-        height: 30,
-        cursor: "pointer",
-      },
-      number: {
-        position: "absolute",
-        bottom: 20,
-        left: 20,
-    
-        color: "#909090",
-        fontWeight: 300,
-        fontSize: 12,
-      },
-      backButton: {
-        position: "absolute",
-        top: 20,
-        left: 20,
-        width: 30,
-        height: 30,
-        cursor: "pointer",
-      },
-      borderButton: {
-        margin: "10px",
-        backgroundColor: "white",
-        border: "1px solid #d1d1d0",
-        borderRadius: "5px",
-        width: "70%",
-        padding: 14,
-        fontSize: 16,
-        color: "#d1d1d0",
-    
-        cursor: "pointer",
-      },
-      buttonComponent: {},
-    };
+    modalContainer: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+  
+      backgroundColor: "rgba(0,0,0,0.7)",
+      zIndex: 100,
+      color: "white",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+  
+      height: "100vh",
+    },
+    modalContent: {
+      padding: "3rem",
+      maxWidth: 600,
+      minHeight: 300,
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      backgroundColor: "#fff",
+      color: "#000",
+      textAlign: "center",
+      borderRadius: 10,
+      position: "relative",
+    },
+    centerColumn: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "1rem",
+    },
+    imageStyle: {
+      width: "100%",
+      height: 300,
+      backgroundSize: "contain",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    },
+    blackButton: {
+      margin: "10px",
+      backgroundColor: "black",
+      border: "none",
+      borderRadius: "5px",
+      width: "70%",
+      padding: 14,
+      fontSize: 16,
+      color: "white",
+      boxShadow: "rgb(180 180 180) 0px 6px 18px -5px",
+      cursor: "pointer",
+    },
+    animation: { height: 400 },
+    orangeButton: {
+      margin: "10px",
+      backgroundColor: "#ed6755",
+      border: "none",
+      borderRadius: "5px",
+      width: "70%",
+      padding: 14,
+      fontSize: 16,
+      color: "white",
+      textAlign: "center",
+      cursor: "pointer",
+    },
+    initialButton: {
+      margin: "10px 0px",
+      backgroundColor: "#ed6755",
+      border: "none",
+      borderRadius: "5px",
+  
+      padding: 14,
+      fontSize: 16,
+      color: "white",
+      textAlign: "center",
+      cursor: "pointer",
+    },
+    closeButton: {
+      position: "absolute",
+      top: 20,
+      right: 20,
+      width: 30,
+      height: 30,
+      cursor: "pointer",
+    },
+    number: {
+      position: "absolute",
+      bottom: 20,
+      left: 20,
+  
+      color: "#909090",
+      fontWeight: 300,
+      fontSize: 12,
+    },
+    backButton: {
+      position: "absolute",
+      top: 20,
+      left: 20,
+      width: 30,
+      height: 30,
+      cursor: "pointer",
+    },
+    borderButton: {
+      margin: "10px",
+      backgroundColor: "white",
+      border: "1px solid #d1d1d0",
+      borderRadius: "5px",
+      width: "70%",
+      padding: 14,
+      fontSize: 16,
+      color: "#d1d1d0",
+  
+      cursor: "pointer",
+    },
+    buttonComponent: {},
+  };
+  
