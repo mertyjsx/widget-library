@@ -24,6 +24,7 @@ class WidgetClass {
     };
   
     const imageContent = () => {
+      console.log(config.image)
       return e("div", {
         style: {
           ...styleContext.imageStyle,
@@ -190,9 +191,10 @@ class WidgetClass {
       ]);
     };
   
-    const domContainer = document.querySelector();
+    const domContainer = document.querySelector(config.placeholder);
     const reactRoot = document.createElement("div");
   
+
     insertAfter(reactRoot, domContainer);
     ReactDOM.render(e(containerComponent), reactRoot);
   };
@@ -326,6 +328,7 @@ class WidgetClass {
   
       cursor: "pointer",
     },
+    
     buttonComponent: {},
   };
   
