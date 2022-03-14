@@ -1,0 +1,17 @@
+{
+  "name": "widget-library",
+  "version": "1.0.0",
+  "description": "Widget test task",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node server.js"
+  },
+  "engines": {
+    "node": ">=0.12"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
