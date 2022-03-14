@@ -42,8 +42,8 @@ npm run serve
 
 
 
-  let widget = Widget(configuration)
-  setTimeout(widget.start, 2000)
+ let widget = Widget(configuration)
+ widget.start()
 ```
 
 
