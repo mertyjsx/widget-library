@@ -125,7 +125,7 @@ class WidgetClass {
         "img",
         {
           style: styleContext.animation,
-          src: "http://localhost:3355/images/wheel-animation.gif",
+          src: "http://localhost:3355/images/loading_animation.gif",
         },
         null
       );
