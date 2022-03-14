@@ -1,6 +1,7 @@
-# Easysize test task
 
-Your task is to build a simple javascript library with the following flow/criteria:
+# Widget Library
+
+This widget has been prepared for Easysize.me in accordance with the following criteria 
  - The library can be loaded into any e-commerce product page
  - The library is configurable and is launched with a trigger
  - After that trigger, a button should be added to the placeholder element
@@ -11,22 +12,42 @@ Your task is to build a simple javascript library with the following flow/criter
  - After a couple of seconds, the last screen should show up, showing the randomly selected attribute and a button 'Select me'
  - When that button is clicked, you should select that attribute on the product page and close your widget/model/iframe
 
-Notes:
- - The conf object has been somewhat prefilled to help you with the task
- - Your library file should be served at `http://127.0.0.1:3355/demo.js`
- - The app should use an external component library in order to speed up your process
- - You shouldn't modify this project, except for the widget configuration part of the `script.js` file
 
-Submission:
- - Create a public git repo and push your code base there
- - Try to avoid having a single commit repo
- - Make a readme file, with a code snippet of what my script.js widget configuration part should look like
- - We will be expecting to test your app with the following steps:
-   - Copy/paste the widget configuration to this project
-   - git clone <your project>
-   - nvm use <your node version>
-   - npm install/build/serve
+ ## Installation
 
-Evaluation:
- - The main evaluation point will be the architecture choices of your library
- - We do not expect the app to be pixel perfected, using default styles of your component library should be enough
+Clone this repository to your folder
+
+```bash
+npm install
+npm run serve
+```
+
+## Usage
+
+```
+
+  let configuration = {
+    attributes: ['red', 'blue', 'black'],
+    placeholder: '.product-color',
+    placeholder_text: 'Surprise me with the color',
+    cart_button: '.cart-btn',
+    image: window.location.origin + '/images/black.png',
+    select_attribute: function(attr) {
+      $(".active").removeClass("active");
+       $(".left-column img[data-image = " + attr + "]").addClass("active");
+       document.querySelector(`input#${attr}`).checked = true;
+     }
+  }
+
+
+
+
+  let widget = Widget(configuration)
+  setTimeout(widget.start, 2000)
+```^
+
+
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
+
